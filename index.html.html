@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JORNAL DE LENDAS</title>
+    <style>
+        /* ================================= */
+        /* CONFIGURAÇÕES GERAIS              */
+        /* ================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            background: #0b0b0f;
+            color: #eeeeee;
+            transition: 0.3s;
+        }
+
+        /* ================================= */
+        /* MENU                              */
+        /* ================================= */
+
+        nav {
+            background: #141419;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            padding: 18px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        nav a:hover {
+            color: #d9a441;
+        }
+
+        /* ================================= */
+        /* CABEÇALHO                         */
+        /* ================================= */
+
+        header {
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.75),
+                    rgba(0, 0, 0, 0.9)),
+                url("https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            min-height: 430px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+        }
+
+        header h1 {
+            font-size: 55px;
+            letter-spacing: 4px;
+            color: #d9a441;
+            text-shadow: 0 0 20px #000;
+            cursor: pointer;
+        }
+
+        header p {
+            margin-top: 15px;
+            font-size: 20px;
+            color: #ddd;
+        }
+
+        /* ================================= */
+        /* PESQUISA                          */
+        /* ================================= */
+
+        .pesquisa {
+            margin-top: 30px;
+            display: flex;
+            width: 90%;
+            max-width: 650px;
+        }
+
+        .pesquisa input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .pesquisa button {
+            padding: 15px 25px;
+            border: none;
+            background: #d9a441;
+            color: #111;
+            font-weight: bold;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .pesquisa button:hover {
+            background: #f0c15a;
+        }
+
+        /* ================================= */
+        /* CONTEÚDO                          */
+        /* ================================= */
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+
+        .titulo-secao {
+            margin-bottom: 25px;
+            border-left: 5px solid #d9a441;
+            padding-left: 15px;
+            font-size: 30px;
+        }
+
+        /* ================================= */
+        /* DESTAQUE                          */
+        /* ================================= */
+
+        .destaque {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .destaque-imagem {
+            min-height: 500px;
+            border-radius: 15px;
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.75)),
+                url("https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=1000&q=80");
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .destaque-texto {
+            background: #17171d;
+            padding: 35px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid #292930;
+        }
+
+        .destaque-texto span {
+            color: #d9a441;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .destaque-texto h2 {
+            font-size: 35px;
+            margin-bottom: 20px;
+        }
+
+        .destaque-texto p {
+            color: #bbb;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        /* ================================= */
+        /* CARDS                             */
+        /* ================================= */
+
+        .noticias {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: #17171d;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid #292930;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-conteudo {
+            padding: 20px;
+        }
+
+        .categoria {
+            color: #d9a441;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .card h3 {
+            margin: 12px 0;
+            font-size: 22px;
+        }
+
+        .card p {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .card-info {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #303038;
+            color: #888;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* ================================= */
+        /* BOTÃO LER                         */
+        /* ================================= */
+
+        .ler {
+            margin-top: 20px;
+            background: transparent;
+            border: 1px solid #d9a441;
+            color: #d9a441;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .ler:hover {
+            background: #d9a441;
+            color: #111;
+        }
+
+        /* ================================= */
+        /* CATEGORIAS                        */
+        /* ================================= */
+
+        .categorias {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .categoria-box {
+            padding: 35px 20px;
+            text-align: center;
+            background: #17171d;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 1px solid #292930;
+            transition: 0.3s;
+            color: white;
+        }
+
+        .categoria-box:hover {
+            transform: scale(1.04);
+            border-color: #d9a441;
+        }
+
+        .categoria-box div {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .categoria-box h3 {
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        .categoria-box p {
+            color: #999;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* ================================= */
+        /* PÁGINA DA CATEGORIA               */
+        /* ================================= */
+
+        #paginaCategoria {
+            display: none;
+            background: #17171d;
+            border: 1px solid #292930;
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 60px;
+        }
+
+        #paginaCategoria h2 {
+            color: #d9a441;
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        #paginaCategoria>p {
+            color: #bbb;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .botao-voltar {
+            background: #d9a441;
+            color: #111;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .botao-voltar:hover {
+            background: #f0c15a;
+        }
+
+        /* ================================= */
+        /* MODAL                             */
+        /* ================================= */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 2000;
+        }
+
+        .modal-conteudo {
+            background: #18181e;
+            max-width: 750px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 35px;
+            border-radius: 15px;
+            position: relative;
+            border: 1px solid #333;
+        }
+
+        .fechar {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .fechar:hover {
+            color: white;
+        }
+
+        .modal h2 {
+            color: #d9a441;
+            margin-bottom: 20px;
+            padding-right: 40px;
+        }
+
+        .modal p {
+            line-height: 1.8;
+            color: #ccc;
+            white-space: pre-line;
+        }
+
+        /* ================================= */
+        /* RODAPÉ                            */
+        /* ================================= */
+
+        footer {
+            margin-top: 80px;
+            background: #08080b;
+            text-align: center;
+            padding: 40px 20px;
+            color: #777;
+        }
+
+        footer strong {
+            color: #d9a441;
+        }
+
+        /* ================================= */
+        /* TEMA CLARO                        */
+        /* ================================= */
+
+        body.claro {
+            background: #eeeeee;
+            color: #222;
+        }
+
+        body.claro nav {
+            background: #ffffff;
+        }
+
+        body.claro nav a {
+            color: #222;
+        }
+
+        body.claro .card,
+        body.claro .destaque-texto,
+        body.claro .categoria-box,
+        body.claro #paginaCategoria,
+        body.claro .modal-conteudo {
+            background: #ffffff;
+            border-color: #ddd;
+        }
+
+        body.claro .card p,
+        body.claro .destaque-texto p,
+        body.claro #paginaCategoria p,
+        body.claro .modal p {
+            color: #555;
+        }
+
+        /* ================================= */
+        /* RESPONSIVO                        */
+        /* ================================= */
+
+        @media(max-width: 900px) {
+            .destaque {
+                grid-template-columns: 1fr;
+            }
+
+            .destaque-imagem {
+                min-height: 400px;
+            }
+
+            .noticias {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .categorias {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header h1 {
+                font-size: 40px;
+            }
+        }
+
+        @media(max-width: 600px) {
+            nav {
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+
+            .noticias {
+                grid-template-columns: 1fr;
+            }
+
+            .categorias {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 32px;
+            }
+
+            .pesquisa {
+                width: 100%;
+            }
+
+            .pesquisa button {
+                padding: 15px;
+            }
+
+            #paginaCategoria {
+                padding: 20px;
+            }
+
+            .destaque-imagem {
+                min-height: 300px;
+            }
+
+            .destaque-texto h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MENU -->
+    <nav>
+        <a onclick="irPara('inicio')">🏠 INICIO</a>
+        <a onclick="irPara('noticias')">📰 NOTICIAS</a>
+        <a onclick="irPara('categorias')">🏛️ MITOLOGIAS</a>
+        <a onclick="alternarTema()">🌙 TEMA CLARO//ESCURO</a>
+    </nav>
+
+    <!-- CABEÇALHO -->
+    <header id="inicio">
+        <h1 onclick="irPara('inicio')">JORNAL DE LENDAS</h1>
+        <p>AQUI AS LENDAS E CRIATURAS MITOLOGICAS REVIVEM </p>
+
+        <!-- PESQUISA DIRECIONADA PARA O GOOGLE EM NOVA ABA -->
+        <form class="pesquisa" onsubmit="pesquisarGoogle(event)">
+            <input type="text" id="campoPesquisa" placeholder="Pesquisar, search, SANTOS É O MAIOR TIME DA TERRA" required>
+            <button type="submit">🔎 PESQUISAR</button>
+        </form>
+    </header>
+
+    <!-- CONTEÚDO -->
+    <div class="container">
+        <div id="paginaInicial">
+
+            <!-- DESTAQUE -->
+            <h2 class="titulo-secao">⭐ NOTICIAS DE DESTAQUE !!</h2>
+            <section class="destaque">
+                <div class="destaque-imagem"></div>
+                <div class="destaque-texto">
+                    <span>MITOLOGIA GREGA</span>
+                    <h2>Zeus retorna ao Monte Olimpo</h2>
+                    <p>Antigos relatos encontrados por arqueólogos revelam novas histórias sobre Zeus, os Titãs e as criaturas que ameaçavam o equilíbrio do mundo antigo.</p>
+                    <p>Segundo as inscrições, o deus dos céus teria retornado ao Monte Olimpo depois de uma longa ausência. Os relatos também mencionam uma batalha envolvendo outros deuses e antigos monstros.</p>
+                    <button class="ler" onclick="abrirNoticia('Zeus retorna ao Monte Olimpo', 'MITOLOGIA GREGA\n\nNovos relatos encontrados revelam detalhes sobre uma antiga batalha envolvendo Zeus, os Titãs e criaturas que ameaçavam o equilíbrio do mundo.\n\nSegundo os registros, Zeus teria retornado ao Olimpo após uma longa ausência. As inscrições encontradas descrevem uma possível disputa pelo controle dos céus e mencionam criaturas que teriam surgido durante o conflito.\n\nEspecialistas consideram a história parte da tradição mitológica, mas os relatos ajudam a compreender como os antigos gregos imaginavam seus deuses e heróis.')">Ler notícia completa →</button>
+                </div>
+            </section>
+
+            <!-- NOTÍCIAS -->
+            <section id="noticias">
+                <h2 class="titulo-secao">📰 Últimas notícias</h2>
+                <div class="noticias">
+
+                    <!-- THOR -->
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80" alt="Thor">
+                        <div class="card-conteudo">
+                            <span class="categoria">MITOLOGIA NÓRDICA</span>
+                            <h3>Thor e o martelo perdido</h3>
+                            <p>Uma antiga inscrição revela novas pistas sobre o desaparecimento de Mjölnir, o poderoso martelo associado ao deus Thor.</p>
+                            <div class="card-info">
+                                <strong>Local:</strong> Asgard<br>
+                                <strong>Personagem:</strong> Thor<br>
+                                <strong>Artefato:</strong> Mjölnir
+                            </div>
+                            <button class="ler" onclick="abrirNoticia('Thor e o martelo perdido', 'MITOLOGIA NÓRDICA\n\nAs antigas sagas contam que Mjölnir era uma das armas mais poderosas de Asgard. O martelo possuía a capacidade de retornar para as mãos de Thor depois de ser lançado.\n\nSegundo a lenda, o desaparecimento do artefato provocou preocupação entre os deuses. Thor teria iniciado uma jornada para descobrir quem havia escondido sua arma.\n\nAs histórias relacionadas a Mjölnir aparecem em diferentes tradições nórdicas e continuam sendo estudadas como parte importante da mitologia escandinava.')">Ler notícia completa →</button>
+                        </div>
+                    </article>
+
+                    <!-- CURUPIRA -->
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=80" alt="Floresta e Curupira">
+                        <div class="card-conteudo">
+                            <span class="categoria">LENDAS BRASILEIRAS</span>
+                            <h3>O Curupira foi visto novamente</h3>
+                            <p>Moradores afirmam ter encontrado pegadas misteriosas dentro da floresta durante uma caminhada ao amanhecer.</p>
+                            <div class="card-info">
+                                <strong>Região:</strong> Florestas brasileiras<br>
+                                <strong>Personagem:</strong> Curupira<br>
+                                <strong>Tema:</strong> Proteção da natureza
+                            </div>
+                            <button class="ler" onclick="abrirNoticia('O Curupira foi visto novamente', 'LENDAS BRASILEIRAS\n\nMoradores de uma comunidade próxima à floresta encontraram pegadas que pareciam estar voltadas para trás. A característica é tradicionalmente associada ao Curupira.\n\nNa tradição popular brasileira, o Curupira é descrito como um protetor das florestas e dos animais.\n\nA lenda também é frequentemente utilizada para representar a importância da preservação da natureza.')">Ler notícia completa →</button>
+                        </div>
+                    </article>
+
+                    <!-- DRAGÃO -->
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80" alt="Dragão Fantasia">
+                        <div class="card-conteudo">
+                            <span class="categoria">CRIATURAS</span>
+                            <h3>Dragão é encontrado nas montanhas</h3>
+                            <p>Exploradores relatam ter observado uma enorme criatura voadora sobrevoando uma região montanhosa.</p>
+                            <div class="card-info">
+                                <strong>Categoria:</strong> Criaturas lendárias<br>
+                                <strong>Ambiente:</strong> Montanhas<br>
+                                <strong>Relato:</strong> Avistamento misterioso
+                            </div>
+                            <button class="ler" onclick="abrirNoticia('Dragão é encontrado nas montanhas', 'CRIATURAS LENDÁRIAS\n\nExploradores afirmam ter visto uma enorme criatura voadora entre as montanhas. O animal teria desaparecido rapidamente atrás das nuvens.\n\nDragões aparecem em diferentes culturas ao redor do mundo. Algumas tradições descrevem essas criaturas como protetoras, enquanto outras as apresentam como seres perigosos.\n\nNão existem evidências científicas de dragões, portanto o relato permanece como uma história misteriosa dentro do universo das lendas.')">Ler notícia completa →</button>
+                        </div>
+                    </article>
+
+                    <!-- LUZES -->
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=800&q=80" alt="Luzes no céu">
+                        <div class="card-conteudo">
+                            <span class="categoria">MISTÉRIOS</span>
+                            <h3>Luzes misteriosas no céu</h3>
+                            <p>Estranhas luzes foram observadas durante a madrugada. O fenômeno chamou a atenção dos moradores.</p>
+                            <div class="card-info">
+                                <strong>Fenômeno:</strong> Luzes aéreas<br>
+                                <strong>Horário:</strong> Madrugada<br>
+                                <strong>Status:</strong> Sem explicação definida
+                            </div>
+                            <button class="ler" onclick="abrirNoticia('Luzes misteriosas no céu', 'MISTÉRIOS\n\nDurante a madrugada, moradores observaram várias luzes movimentando-se rapidamente pelo céu. Algumas pareciam desaparecer e reaparecer poucos segundos depois.\n\nFenômenos luminosos podem possuir diversas explicações, como fenômenos atmosféricos, aeronaves, satélites ou outros eventos naturais.\n\nNo universo das lendas, entretanto, essas aparições frequentemente são associadas a histórias sobre seres sobrenaturais e visitantes desconhecidos.')">Ler notícia completa →</button>
+                        </div>
+                    </article>
+
+                    <!-- ANÚBIS -->
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=800&q=80" alt="Anúbis">
+                        <div class="card-conteudo">
+                            <span class="categoria">MITOLOGIA EGÍPCIA</span>
+                            <h3>Anúbis e o segredo das tumbas</h3>
+                            <p>Novas histórias sobre o deus associado aos mortos voltam a despertar o interesse pelos antigos mistérios egípcios.</p>
+                            <div class="card-info">
+                                <strong>Personagem:</strong> Anúbis<br>
+                                <strong>Civilização:</strong> Egito Antigo<br>
+                                <strong>Tema:</strong> Mundo dos mortos
+                            </div>
+                            <button class="ler" onclick="abrirNoticia('Anúbis e o segredo das tumbas', 'MITOLOGIA EGÍPCIA\n\nAnúbis é uma importante divindade da religião do Egito Antigo e tradicionalmente aparece representado com características de um chacal.\n\nEle era associado aos rituais funerários e à proteção dos mortos.\n\nAs histórias envolvendo Anúbis fazem parte de uma tradição religiosa extremamente rica que inclui também Osíris, Ísis e outros deuses.')">Ler notícia completa →</button>
+                        </div>
+                    </article>
+
+                    <!-- ODIN -->
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=800&q=80" alt="Odin">
+                        <div class="card-conteudo">
+                            <span class="categoria">MITOLOGIA NÓRDICA</span>
+                            <h3>Odin procura conhecimento proibido</h3>
+                            <p>As antigas histórias de Asgard apresentam Odin como uma figura ligada à sabedoria, magia e conhecimento.</p>
+                            <div class="card-info">
+                                <strong>Personagem:</strong> Odin<br>
+                                <strong>Reino:</strong> Asgard<br>
+                                <strong>Temas:</strong> Sabedoria e magia
+                            </div>
+                            <button class="ler" onclick="abrirNoticia('Odin procura conhecimento proibido', 'MITOLOGIA NÓRDICA\n\nOdin é uma das principais figuras da mitologia nórdica. Nas antigas tradições, ele aparece associado à sabedoria, guerra, magia, poesia e conhecimento.\n\nUma das histórias mais conhecidas envolve sua busca pelo conhecimento e pelas runas.\n\nSuas histórias estão relacionadas a diversos acontecimentos que envolvem Asgard e o destino dos deuses.')">Ler notícia completa →</button>
+                        </div>
+                    </article>
+
+                    <!-- HADES -->
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80" alt="Hades">
+                        <div class="card-conteudo">
+                            <span class="categoria">MITOLOGIA GREGA</span>
+                            <h3>Hades e os mistérios do submundo</h3>
+                            <p>Relatos antigos descrevem o reino subterrâneo governado por Hades e os desafios enfrentados pelos mortos.</p>
+                            <div class="card-info">
+                                <strong>Personagem:</strong> Hades<br>
+                                <strong>Reino:</strong> Submundo<br>
+                                <strong>Mitologia:</strong> Grega
+                            </div>
+                            <button class="ler" onclick="abrirNoticia('Hades e os mistérios do submundo', 'MITOLOGIA GREGA\n\nNa mitologia grega, Hades é o deus associado ao mundo dos mortos e também o nome utilizado para designar seu reino.\n\nO submundo grego era descrito como um local para onde as almas dos mortos eram conduzidas.\n\nHades também aparece em narrativas envolvendo Perséfone, Deméter e outros deuses do panteão grego.')">Ler notícia completa →</button>
+                        </div>
+                    </article>
+
+                    <!-- IARA -->
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=800&q=80" alt="Iara">
+                        <div class="card-conteudo">
+                            <span class="categoria">LENDAS BRASILEIRAS</span>
+                            <h3>A lenda da Iara retorna aos rios</h3>
+                            <p>Uma das histórias mais conhecidas do folclore brasileiro volta a despertar a imaginação de moradores próximos aos rios.</p>
+                            <div class="card-info">
+                                <strong>Personagem:</strong> Iara<br>
+                                <strong>Ambiente:</strong> Rios<br>
+                                <strong>Origem:</strong> Folclore brasileiro
+                            </div>
+                            <button class="ler" onclick="abrirNoticia('A lenda da Iara retorna aos rios', 'LENDAS BRASILEIRAS\n\nIara é uma personagem tradicional do folclore brasileiro frequentemente descrita como uma figura associada aos rios e às águas.\n\nNas versões populares da lenda, sua beleza e seu canto são elementos importantes da narrativa.\n\nA lenda da Iara faz parte do conjunto de histórias que compõem o rico folclore brasileiro.')">Ler notícia completa →</button>
+                        </div>
+                    </article>
+
+                    <!-- SACI -->
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80" alt="Floresta e Saci">
+                        <div class="card-conteudo">
+                            <span class="categoria">LENDAS BRASILEIRAS</span>
+                            <h3>O mistério do Saci na floresta</h3>
+                            <p>Moradores contam novas histórias sobre o personagem de uma perna só conhecido por suas travessuras.</p>
+                            <div class="card-info">
+                                <strong>Personagem:</strong> Saci<br>
+                                <strong>Ambiente:</strong> Florestas<br>
+                                <strong>Característica:</strong> Travessuras
+                            </div>
+                            <button class="ler" onclick="abrirNoticia('O mistério do Saci na floresta', 'LENDAS BRASILEIRAS\n\nO Saci é um dos personagens mais conhecidos do folclore brasileiro. A tradição popular costuma descrevê-lo como um personagem de uma perna só, associado a um gorro vermelho e a diversas travessuras.\n\nAs histórias sobre o Saci variam de acordo com a região e foram transmitidas durante gerações.\n\nHoje, ele continua sendo uma das figuras mais reconhecidas da cultura popular brasileira.')">Ler notícia completa →</button>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- CATEGORIAS -->
+            <section id="categorias" style="margin-top:80px;">
+                <h2 class="titulo-secao">🏛️ Explore as mitologias</h2>
+                <div class="categorias">
+                    <button class="categoria-box" onclick="filtrar('Grega')">
+                        <div>🏛️</div>
+                        <h3>Mitologia Grega</h3>
+                        <p>Conheça Zeus, Hades, Poseidon, Atena, Hércules e outras histórias do mundo dos deuses do Olimpo.</p>
+                    </button>
+
+                    <button class="categoria-box" onclick="filtrar('Nórdica')">
+                        <div>⚔️</div>
+                        <h3>Mitologia Nórdica</h3>
+                        <p>Descubra Odin, Thor, Loki, Asgard, Valquírias, Mjölnir e o Ragnarok.</p>
+                    </button>
+
+                    <button class="categoria-box" onclick="filtrar('Egípcia')">
+                        <div>𓂀</div>
+                        <h3>Mitologia Egípcia</h3>
+                        <p>Explore Anúbis, Osíris, Ísis, Rá, Hórus e os mistérios do Egito.</p>
+                    </button>
+
+                    <button class="categoria-box" onclick="filtrar('Brasileira')">
+                        <div>🌳</div>
+                        <h3>Lendas Brasileiras</h3>
+                        <p>Conheça Curupira, Saci, Iara, Boitatá e outras histórias populares.</p>
+                    </button>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- PÁGINA DA CATEGORIA -->
+        <section id="paginaCategoria">
+            <button class="botao-voltar" onclick="voltarCategorias()">← Voltar para as mitologias</button>
+            <h2 id="tituloCategoria"></h2>
+            <p id="descricaoCategoria"></p>
+            <div id="resultadoCategoria" class="noticias"></div>
+        </section>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal" id="modal">
+        <div class="modal-conteudo">
+            <span class="fechar" onclick="fecharNoticia()">&times;</span>
+            <h2 id="modalTitulo"></h2>
+            <p id="modalTexto"></p>
+        </div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <p>🏛️ <strong>Crônicas Mitológicas by Equipe Caos</strong></p>
+        <br>
+        <p>Um portal fictício dedicado às grandes histórias, deuses, monstros, heróis e lendas de diferentes culturas.</p>
+        <br>
+        <p>© 2026 - Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        /* ================================= */
+        /* PESQUISA GOOGLE (ABRE EM NOVA ABA) */
+        /* ================================= */
+        function pesquisarGoogle(event) {
+            event.preventDefault();
+
+            const campo = document.getElementById("campoPesquisa");
+            const termo = campo.value.trim();
+
+            if (termo === "") {
+                alert("Digite algo para pesquisar.");
+                campo.focus();
+                return;
+            }
+
+            const url = "https://www.google.com/search?q=" + encodeURIComponent(termo);
+            window.open(url, "_blank");
+        }
+
+        /* ================================= */
+        /* ABRIR NOTÍCIA                     */
+        /* ================================= */
+        function abrirNoticia(titulo, texto) {
+            document.getElementById("modalTitulo").textContent = titulo;
+            document.getElementById("modalTexto").textContent = texto;
+            document.getElementById("modal").style.display = "flex";
+        }
+
+        /* ================================= */
+        /* FECHAR NOTÍCIA                    */
+        /* ================================= */
+        function fecharNoticia() {
+            document.getElementById("modal").style.display = "none";
+        }
+
+        /* ================================= */
+        /* FECHAR CLICANDO FORA              */
+        /* ================================= */
+        document.getElementById("modal").addEventListener("click", function (event) {
+            if (event.target === this) {
+                fecharNoticia();
+            }
+        });
+
+        /* ================================= */
+        /* TECLA ESC FECHA MODAL             */
+        /* ================================= */
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                fecharNoticia();
+            }
+        });
+
+        /* ================================= */
+        /* MENU                              */
+        /* ================================= */
+        function irPara(id) {
+            const paginaInicial = document.getElementById("paginaInicial");
+            const paginaCategoria = document.getElementById("paginaCategoria");
+
+            paginaInicial.style.display = "block";
+            paginaCategoria.style.display = "none";
+
+            const elemento = document.getElementById(id);
+
+            if (elemento) {
+                setTimeout(function () {
+                    elemento.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }, 50);
+            }
+        }
+
+        /* ================================= */
+        /* TEMA                              */
+        /* ================================= */
+        function alternarTema() {
+            document.body.classList.toggle("claro");
+        }
+
+        /* ================================= */
+        /* FILTRO POR CATEGORIA              */
+        /* ================================= */
+        function filtrar(categoria) {
+            const paginaInicial = document.getElementById("paginaInicial");
+            const paginaCategoria = document.getElementById("paginaCategoria");
+            const tituloCategoria = document.getElementById("tituloCategoria");
+            const descricaoCategoria = document.getElementById("descricaoCategoria");
+            const resultado = document.getElementById("resultadoCategoria");
+
+            paginaInicial.style.display = "none";
+            paginaCategoria.style.display = "block";
+            resultado.innerHTML = "";
+
+            if (categoria === "Grega") {
+                tituloCategoria.innerHTML = "🏛️ Mitologia Grega";
+                descricaoCategoria.innerHTML = "Explore as histórias dos deuses do Olimpo, heróis, criaturas e antigas lendas da mitologia grega.";
+            } else if (categoria === "Nórdica") {
+                tituloCategoria.innerHTML = "⚔️ Mitologia Nórdica";
+                descricaoCategoria.innerHTML = "Explore histórias de Odin, Thor, Loki, Asgard, Mjölnir e das antigas tradições nórdicas.";
+            } else if (categoria === "Egípcia") {
+                tituloCategoria.innerHTML = "𓂀 Mitologia Egípcia";
+                descricaoCategoria.innerHTML = "Explore histórias sobre os antigos deuses egípcios, faraós, criaturas e mistérios do Egito.";
+            } else if (categoria === "Brasileira") {
+                tituloCategoria.innerHTML = "🌳 Lendas Brasileiras";
+                descricaoCategoria.innerHTML = "Explore as lendas populares brasileiras, como Curupira, Saci, Iara e muitas outras histórias.";
+            }
+
+            const cards = document.querySelectorAll("#noticias .card");
+            let encontrou = false;
+
+            cards.forEach(function (card) {
+                const texto = card.innerText.toLowerCase();
+
+                if (texto.includes(categoria.toLowerCase())) {
+                    const copia = card.cloneNode(true);
+                    const botao = copia.querySelector(".ler");
+
+                    if (botao) {
+                        botao.removeAttribute("onclick");
+                        botao.onclick = function () {
+                            const titulo = copia.querySelector("h3").innerText;
+                            const textoCard = copia.querySelector("p").innerText;
+                            abrirNoticia(titulo, textoCard);
+                        };
+                    }
+
+                    resultado.appendChild(copia);
+                    encontrou = true;
+                }
+            });
+
+            if (!encontrou) {
+                resultado.innerHTML = "<p>Ainda não existem notícias dessa categoria.</p>";
+            }
+
+            setTimeout(function () {
+                paginaCategoria.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }, 50);
+        }
+
+        /* ================================= */
+        /* BOTÃO VOLTAR                      */
+        /* ================================= */
+        function voltarCategorias() {
+            document.getElementById("paginaCategoria").style.display = "none";
+            document.getElementById("paginaInicial").style.display = "block";
+
+            const categorias = document.getElementById("categorias");
+            categorias.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    </script>
+</body>
+
+</html>
